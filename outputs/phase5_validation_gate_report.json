@@ -1,0 +1,24 @@
+{
+  "all_passed": false,
+  "checks": [
+    {
+      "criterion": "1. Fusion beats concatenation on missing-modality subset",
+      "passed": false,
+      "fusion_macro_f1": 0.8904580350009924,
+      "baseline_macro_f1": 0.8815969215969216,
+      "delta": 0.008861113404070808,
+      "threshold": 0.03,
+      "detail": "fusion macro-F1 0.890 vs baseline 0.882 (delta +0.009, threshold +0.030) on the missing-modality test subset specifically."
+    },
+    {
+      "criterion": "2. Trajectory model beats persistence baseline on converter subset (n>=20)",
+      "passed": false,
+      "detail": "No converter_subset_vs_persistence_baseline in this report, or zero converter positions -- rerun evaluate_trajectory.py (post-Phase-5-update) against the data in question."
+    },
+    {
+      "criterion": "3. PPO agent finds >=1 scenario where escalating beats stopping early",
+      "passed": false,
+      "detail": "No all_episode_trajectories in ppo_agent report -- rerun evaluate_pathway.py (post-Phase-5-update) to populate it."
+    }
+  ]
+}

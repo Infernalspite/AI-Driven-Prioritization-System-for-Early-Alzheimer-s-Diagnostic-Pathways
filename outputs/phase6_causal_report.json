@@ -1,0 +1,86 @@
+{
+  "csv_path": "data/raw_v2/cleaned_dataset.csv",
+  "outcome_col": "CDR_SB",
+  "confounder_cols": [
+    "age",
+    "education_years"
+  ],
+  "n_rows": 2107,
+  "method": "Frisch-Waugh-Lovell linear backdoor adjustment (dowhy not installed in this environment -- see dowhy_backdoor_estimate())",
+  "predictors": {
+    "hippocampal_volume_mm3": {
+      "unadjusted_importance": -0.8227,
+      "confounder_adjusted_importance": -0.8205,
+      "confounding_strength": -0.0022,
+      "pct_of_unadjusted_association_surviving_adjustment": 0.9973
+    },
+    "cortical_thickness_mm": {
+      "unadjusted_importance": -0.8128,
+      "confounder_adjusted_importance": -0.8106,
+      "confounding_strength": -0.0021,
+      "pct_of_unadjusted_association_surviving_adjustment": 0.9974
+    },
+    "ptau181": {
+      "unadjusted_importance": 0.3922,
+      "confounder_adjusted_importance": 0.3911,
+      "confounding_strength": 0.0011,
+      "pct_of_unadjusted_association_surviving_adjustment": 0.9973
+    },
+    "pet_amyloid_suvr": {
+      "unadjusted_importance": 0.2647,
+      "confounder_adjusted_importance": 0.2637,
+      "confounding_strength": 0.001,
+      "pct_of_unadjusted_association_surviving_adjustment": 0.9962
+    },
+    "abeta42_40_ratio": {
+      "unadjusted_importance": -0.3863,
+      "confounder_adjusted_importance": -0.3859,
+      "confounding_strength": -0.0004,
+      "pct_of_unadjusted_association_surviving_adjustment": 0.9988
+    }
+  },
+  "shap_importances": {
+    "MMSE": 0.10463751242414952,
+    "ADAS13": 0.1272088902158119,
+    "CDR_SB": 0.07829516234579846,
+    "abeta42_40_ratio": 0.03947284157552254,
+    "ptau181": 0.03039161772767191,
+    "hippocampal_volume_mm3": 0.0751201308376186,
+    "cortical_thickness_mm": 0.02035419388700611,
+    "pet_amyloid_suvr": 0.023027722831142756,
+    "age": 0.036957787968815416,
+    "education_years": 0.02313827956768656
+  },
+  "shap_vs_adjusted_comparison": {
+    "hippocampal_volume_mm3": {
+      "backdoor_adjusted_importance": -0.8205,
+      "confounding_strength": -0.0022,
+      "shap_unadjusted_importance": 0.0751,
+      "unadjusted_source": "shap.KernelExplainer on frozen CrossAttentionFusion"
+    },
+    "cortical_thickness_mm": {
+      "backdoor_adjusted_importance": -0.8106,
+      "confounding_strength": -0.0021,
+      "shap_unadjusted_importance": 0.0204,
+      "unadjusted_source": "shap.KernelExplainer on frozen CrossAttentionFusion"
+    },
+    "ptau181": {
+      "backdoor_adjusted_importance": 0.3911,
+      "confounding_strength": 0.0011,
+      "shap_unadjusted_importance": 0.0304,
+      "unadjusted_source": "shap.KernelExplainer on frozen CrossAttentionFusion"
+    },
+    "pet_amyloid_suvr": {
+      "backdoor_adjusted_importance": 0.2637,
+      "confounding_strength": 0.001,
+      "shap_unadjusted_importance": 0.023,
+      "unadjusted_source": "shap.KernelExplainer on frozen CrossAttentionFusion"
+    },
+    "abeta42_40_ratio": {
+      "backdoor_adjusted_importance": -0.3859,
+      "confounding_strength": -0.0004,
+      "shap_unadjusted_importance": 0.0395,
+      "unadjusted_source": "shap.KernelExplainer on frozen CrossAttentionFusion"
+    }
+  }
+}

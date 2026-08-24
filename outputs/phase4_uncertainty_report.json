@@ -1,0 +1,431 @@
+{
+  "deterministic_pass": {
+    "accuracy": 0.8975409836065574,
+    "ece": 0.028417478086518455,
+    "reliability_bins": [
+      {
+        "bin_range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.2,
+          0.30000000000000004
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.30000000000000004,
+          0.4
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.4,
+          0.5
+        ],
+        "count": 1,
+        "avg_confidence": 0.4851158559322357,
+        "accuracy": 0.0
+      },
+      {
+        "bin_range": [
+          0.5,
+          0.6000000000000001
+        ],
+        "count": 7,
+        "avg_confidence": 0.5696361660957336,
+        "accuracy": 0.4285714328289032
+      },
+      {
+        "bin_range": [
+          0.6000000000000001,
+          0.7000000000000001
+        ],
+        "count": 5,
+        "avg_confidence": 0.654379665851593,
+        "accuracy": 0.800000011920929
+      },
+      {
+        "bin_range": [
+          0.7000000000000001,
+          0.8
+        ],
+        "count": 35,
+        "avg_confidence": 0.7695885896682739,
+        "accuracy": 0.800000011920929
+      },
+      {
+        "bin_range": [
+          0.8,
+          0.9
+        ],
+        "count": 80,
+        "avg_confidence": 0.8527624011039734,
+        "accuracy": 0.875
+      },
+      {
+        "bin_range": [
+          0.9,
+          1.0
+        ],
+        "count": 116,
+        "avg_confidence": 0.9664673805236816,
+        "accuracy": 0.982758641242981
+      }
+    ]
+  },
+  "temperature_scaled": {
+    "fitted_temperature": 0.873533308506012,
+    "ece": 0.01654521607961811,
+    "reliability_bins": [
+      {
+        "bin_range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.2,
+          0.30000000000000004
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.30000000000000004,
+          0.4
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.4,
+          0.5
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.5,
+          0.6000000000000001
+        ],
+        "count": 4,
+        "avg_confidence": 0.544546365737915,
+        "accuracy": 0.5
+      },
+      {
+        "bin_range": [
+          0.6000000000000001,
+          0.7000000000000001
+        ],
+        "count": 8,
+        "avg_confidence": 0.6399917602539062,
+        "accuracy": 0.5
+      },
+      {
+        "bin_range": [
+          0.7000000000000001,
+          0.8
+        ],
+        "count": 14,
+        "avg_confidence": 0.7758522033691406,
+        "accuracy": 0.8571428656578064
+      },
+      {
+        "bin_range": [
+          0.8,
+          0.9
+        ],
+        "count": 79,
+        "avg_confidence": 0.8602271676063538,
+        "accuracy": 0.8607594966888428
+      },
+      {
+        "bin_range": [
+          0.9,
+          1.0
+        ],
+        "count": 139,
+        "avg_confidence": 0.9680488705635071,
+        "accuracy": 0.9568345546722412
+      }
+    ],
+    "note": "Temperature fit by NLL minimization on VAL logits only, then applied to test."
+  },
+  "mc_dropout": {
+    "n_passes": 30,
+    "accuracy": 0.8975409836065574,
+    "ece": 0.05672292130403832,
+    "reliability_bins": [
+      {
+        "bin_range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.2,
+          0.30000000000000004
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.30000000000000004,
+          0.4
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.4,
+          0.5
+        ],
+        "count": 2,
+        "avg_confidence": 0.45353075861930847,
+        "accuracy": 0.5
+      },
+      {
+        "bin_range": [
+          0.5,
+          0.6000000000000001
+        ],
+        "count": 9,
+        "avg_confidence": 0.5613877773284912,
+        "accuracy": 0.6666666865348816
+      },
+      {
+        "bin_range": [
+          0.6000000000000001,
+          0.7000000000000001
+        ],
+        "count": 11,
+        "avg_confidence": 0.657720148563385,
+        "accuracy": 0.4545454680919647
+      },
+      {
+        "bin_range": [
+          0.7000000000000001,
+          0.8
+        ],
+        "count": 36,
+        "avg_confidence": 0.7580174207687378,
+        "accuracy": 0.8888888955116272
+      },
+      {
+        "bin_range": [
+          0.8,
+          0.9
+        ],
+        "count": 75,
+        "avg_confidence": 0.8408684730529785,
+        "accuracy": 0.8799999952316284
+      },
+      {
+        "bin_range": [
+          0.9,
+          1.0
+        ],
+        "count": 111,
+        "avg_confidence": 0.955686628818512,
+        "accuracy": 0.9819819927215576
+      }
+    ],
+    "mean_total_uncertainty": 0.4027135372161865,
+    "mean_aleatoric": 0.3802871108055115,
+    "mean_epistemic": 0.02242637798190117,
+    "note": "MC Dropout accuracy/ECE use the averaged softmax probability across 30 stochastic passes. Compare its ECE to the deterministic-pass ECE above -- MC averaging is NOT assumed to improve calibration on its own, per the plan's caveat; we report both so the comparison is checkable rather than asserted."
+  },
+  "high_epistemic_uncertainty_examples": [
+    {
+      "predicted": "CN",
+      "true": "CN",
+      "correct": true,
+      "probs": {
+        "CN": 0.5060009956359863,
+        "MCI": 0.3965054452419281,
+        "AD": 0.09749361127614975
+      },
+      "total_uncertainty": 0.9384518265724182,
+      "aleatoric": 0.7100246548652649,
+      "epistemic": 0.22842717170715332
+    },
+    {
+      "predicted": "MCI",
+      "true": "CN",
+      "correct": false,
+      "probs": {
+        "CN": 0.39722976088523865,
+        "MCI": 0.4680403172969818,
+        "AD": 0.13472992181777954
+      },
+      "total_uncertainty": 0.9921389818191528,
+      "aleatoric": 0.809083878993988,
+      "epistemic": 0.1830551028251648
+    },
+    {
+      "predicted": "CN",
+      "true": "CN",
+      "correct": true,
+      "probs": {
+        "CN": 0.7910973429679871,
+        "MCI": 0.161924347281456,
+        "AD": 0.04697832092642784
+      },
+      "total_uncertainty": 0.6238478422164917,
+      "aleatoric": 0.46729788184165955,
+      "epistemic": 0.15654996037483215
+    },
+    {
+      "predicted": "MCI",
+      "true": "MCI",
+      "correct": true,
+      "probs": {
+        "CN": 0.251857727766037,
+        "MCI": 0.618040144443512,
+        "AD": 0.13010212779045105
+      },
+      "total_uncertainty": 0.9100213050842285,
+      "aleatoric": 0.7641507387161255,
+      "epistemic": 0.14587056636810303
+    },
+    {
+      "predicted": "MCI",
+      "true": "MCI",
+      "correct": true,
+      "probs": {
+        "CN": 0.43075644969940186,
+        "MCI": 0.43902119994163513,
+        "AD": 0.13022230565547943
+      },
+      "total_uncertainty": 0.9896538257598877,
+      "aleatoric": 0.8525968194007874,
+      "epistemic": 0.13705700635910034
+    }
+  ],
+  "high_aleatoric_uncertainty_examples": [
+    {
+      "predicted": "MCI",
+      "true": "MCI",
+      "correct": true,
+      "probs": {
+        "CN": 0.43075644969940186,
+        "MCI": 0.43902119994163513,
+        "AD": 0.13022230565547943
+      },
+      "total_uncertainty": 0.9896538257598877,
+      "aleatoric": 0.8525968194007874,
+      "epistemic": 0.13705700635910034
+    },
+    {
+      "predicted": "MCI",
+      "true": "CN",
+      "correct": false,
+      "probs": {
+        "CN": 0.39722976088523865,
+        "MCI": 0.4680403172969818,
+        "AD": 0.13472992181777954
+      },
+      "total_uncertainty": 0.9921389818191528,
+      "aleatoric": 0.809083878993988,
+      "epistemic": 0.1830551028251648
+    },
+    {
+      "predicted": "CN",
+      "true": "CN",
+      "correct": true,
+      "probs": {
+        "CN": 0.5748332142829895,
+        "MCI": 0.3293013274669647,
+        "AD": 0.09586548060178757
+      },
+      "total_uncertainty": 0.908839225769043,
+      "aleatoric": 0.799319326877594,
+      "epistemic": 0.10951989889144897
+    },
+    {
+      "predicted": "MCI",
+      "true": "MCI",
+      "correct": true,
+      "probs": {
+        "CN": 0.27830633521080017,
+        "MCI": 0.5925788879394531,
+        "AD": 0.1291147619485855
+      },
+      "total_uncertainty": 0.9303473234176636,
+      "aleatoric": 0.7956252694129944,
+      "epistemic": 0.1347220540046692
+    },
+    {
+      "predicted": "CN",
+      "true": "MCI",
+      "correct": false,
+      "probs": {
+        "CN": 0.565761148929596,
+        "MCI": 0.3427799344062805,
+        "AD": 0.09145895391702652
+      },
+      "total_uncertainty": 0.9080085754394531,
+      "aleatoric": 0.790615975856781,
+      "epistemic": 0.11739259958267212
+    }
+  ],
+  "clinical_framing": "High EPISTEMIC uncertainty = the model itself is unsure (passes disagree) -- the plan's prescription is to escalate testing for these cases (this is the signal Phase 3's reward-shaping hook, tried below, is meant to consume). High ALEATORIC uncertainty = passes agree but the prediction itself is a low-confidence blend across classes -- more testing may not resolve genuinely borderline pathology, and the plan flags this as its own clinically meaningful case rather than a modeling failure."
+}

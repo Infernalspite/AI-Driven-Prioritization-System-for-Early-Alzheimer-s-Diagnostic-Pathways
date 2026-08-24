@@ -1,0 +1,473 @@
+{
+  "ppo_agent": {
+    "accuracy": 0.8571428571428571,
+    "avg_n_tests_ordered": 0.8571428571428571,
+    "avg_total_cost": 2.5714285714285716,
+    "avg_total_invasiveness": 0.8571428571428571,
+    "avg_reward": 8.9,
+    "n_episodes": 56,
+    "examples": [
+      {
+        "reward": 13.3,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 3.0,
+        "total_invasiveness": 1.0,
+        "trajectory": [
+          "order_mri",
+          "order_mri",
+          "order_mri",
+          "order_mri"
+        ]
+      },
+      {
+        "reward": 13.3,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 3.0,
+        "total_invasiveness": 1.0,
+        "trajectory": [
+          "order_mri",
+          "order_mri",
+          "order_mri",
+          "order_mri"
+        ]
+      },
+      {
+        "reward": 13.3,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 3.0,
+        "total_invasiveness": 1.0,
+        "trajectory": [
+          "order_mri",
+          "order_mri",
+          "order_mri",
+          "order_mri"
+        ]
+      },
+      {
+        "reward": 13.3,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 3.0,
+        "total_invasiveness": 1.0,
+        "trajectory": [
+          "order_mri",
+          "order_mri",
+          "order_mri",
+          "order_mri"
+        ]
+      },
+      {
+        "reward": 13.3,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 3.0,
+        "total_invasiveness": 1.0,
+        "trajectory": [
+          "order_mri",
+          "order_mri",
+          "order_mri",
+          "order_mri"
+        ]
+      },
+      {
+        "reward": 13.3,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 3.0,
+        "total_invasiveness": 1.0,
+        "trajectory": [
+          "order_mri",
+          "order_mri",
+          "order_mri",
+          "order_mri"
+        ]
+      }
+    ]
+  },
+  "always_full_workup": {
+    "accuracy": 0.9107142857142857,
+    "avg_n_tests_ordered": 3.0,
+    "avg_total_cost": 12.0,
+    "avg_total_invasiveness": 4.5,
+    "avg_reward": 11.139285714285714,
+    "n_episodes": 56,
+    "examples": [
+      {
+        "reward": -15.825,
+        "correct": false,
+        "predicted_diagnosis": "CN",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 3,
+        "total_cost": 12.0,
+        "total_invasiveness": 4.5,
+        "trajectory": [
+          "order_blood",
+          "order_mri",
+          "order_pet",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.175,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 3,
+        "total_cost": 12.0,
+        "total_invasiveness": 4.5,
+        "trajectory": [
+          "order_blood",
+          "order_mri",
+          "order_pet",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.175,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 3,
+        "total_cost": 12.0,
+        "total_invasiveness": 4.5,
+        "trajectory": [
+          "order_blood",
+          "order_mri",
+          "order_pet",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.175,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 3,
+        "total_cost": 12.0,
+        "total_invasiveness": 4.5,
+        "trajectory": [
+          "order_blood",
+          "order_mri",
+          "order_pet",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.175,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 3,
+        "total_cost": 12.0,
+        "total_invasiveness": 4.5,
+        "trajectory": [
+          "order_blood",
+          "order_mri",
+          "order_pet",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.175,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 3,
+        "total_cost": 12.0,
+        "total_invasiveness": 4.5,
+        "trajectory": [
+          "order_blood",
+          "order_mri",
+          "order_pet",
+          "stop_and_diagnose"
+        ]
+      }
+    ]
+  },
+  "cognitive_only": {
+    "accuracy": 0.8392857142857143,
+    "avg_n_tests_ordered": 0.0,
+    "avg_total_cost": 0.0,
+    "avg_total_invasiveness": 0.0,
+    "avg_reward": 9.821428571428571,
+    "n_episodes": 56,
+    "examples": [
+      {
+        "reward": -15.0,
+        "correct": false,
+        "predicted_diagnosis": "CN",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      }
+    ]
+  },
+  "greedy_confidence_heuristic": {
+    "accuracy": 0.8571428571428571,
+    "avg_n_tests_ordered": 0.125,
+    "avg_total_cost": 0.125,
+    "avg_total_invasiveness": 0.0625,
+    "avg_reward": 10.347767857142856,
+    "n_episodes": 56,
+    "examples": [
+      {
+        "reward": -15.0,
+        "correct": false,
+        "predicted_diagnosis": "CN",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 15.0,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      }
+    ]
+  },
+  "ppo_agent_uncertainty_aware": {
+    "accuracy": 0.8571428571428571,
+    "avg_n_tests_ordered": 0.5535714285714286,
+    "avg_total_cost": 0.5535714285714286,
+    "avg_total_invasiveness": 0.2767857142857143,
+    "avg_reward": 10.315624999999999,
+    "n_episodes": 56,
+    "examples": [
+      {
+        "reward": -15.0,
+        "correct": false,
+        "predicted_diagnosis": "CN",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 0,
+        "total_cost": 0,
+        "total_invasiveness": 0,
+        "trajectory": [
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.925,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 1.0,
+        "total_invasiveness": 0.5,
+        "trajectory": [
+          "order_blood",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.925,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 1.0,
+        "total_invasiveness": 0.5,
+        "trajectory": [
+          "order_blood",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.925,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 1.0,
+        "total_invasiveness": 0.5,
+        "trajectory": [
+          "order_blood",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.925,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 1.0,
+        "total_invasiveness": 0.5,
+        "trajectory": [
+          "order_blood",
+          "stop_and_diagnose"
+        ]
+      },
+      {
+        "reward": 14.925,
+        "correct": true,
+        "predicted_diagnosis": "MCI",
+        "true_diagnosis": "MCI",
+        "n_tests_ordered": 1,
+        "total_cost": 1.0,
+        "total_invasiveness": 0.5,
+        "trajectory": [
+          "order_blood",
+          "stop_and_diagnose"
+        ]
+      }
+    ]
+  },
+  "_meta": {
+    "confidence_threshold_used": 0.75,
+    "lambda_cost": 0.05,
+    "mu_invasive": 0.05,
+    "test_costs": {
+      "blood": {
+        "cost": 1.0,
+        "invasiveness": 0.5
+      },
+      "mri": {
+        "cost": 3.0,
+        "invasiveness": 1.0
+      },
+      "pet": {
+        "cost": 8.0,
+        "invasiveness": 3.0
+      }
+    },
+    "note": "All policies evaluated on the SAME complete-case test visits (blood/MRI/PET all actually recorded), iterated once each -- deterministic, not sampled. Accuracy differences reflect real recorded modality values revealed progressively, not simulated outcomes."
+  }
+}

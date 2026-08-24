@@ -1,0 +1,30 @@
+{
+  "csv_path": "data/raw_v2/cleaned_dataset.csv",
+  "target_class": "AD",
+  "n_train_subjects": 400,
+  "n_test_subjects": 100,
+  "strategies": {
+    "no_oversampling_class_weighted_only": {
+      "n_train_rows": 1688,
+      "n_target_class_train_rows": 350,
+      "test_macro_f1": 0.7898,
+      "test_AD_f1": 0.8177
+    },
+    "row_level_smote": {
+      "n_train_rows": 2007,
+      "n_target_class_train_rows": 669,
+      "test_macro_f1": 0.7917,
+      "test_AD_f1": 0.841,
+      "n_synthetic_rows_generated": 319,
+      "note": "Synthetic rows are feature-space interpolations between two possibly-different subjects' visits -- not real patients, not assignable a genuine subject_id or visit order. Fine for a flat row-level classifier like the one used for this comparison; not usable inside ADTrajectoryDataset's per-subject sequence structure without fabricating a fictitious longitudinal identity."
+    },
+    "subject_level_duplication": {
+      "n_train_rows": 2966,
+      "n_target_class_train_rows": 1400,
+      "test_macro_f1": 0.8066,
+      "test_AD_f1": 0.8601,
+      "oversample_factor": 4,
+      "note": "Every duplicated row is a real recorded visit from a real subject -- no interpolation, no fabricated identity. This is the row-level analogue of oversampling.py's SubjectLevelOversampler; the actual Module B training uses the sequence-level version (whole padded subject trajectories), not this flattened row-level form."
+    }
+  }
+}

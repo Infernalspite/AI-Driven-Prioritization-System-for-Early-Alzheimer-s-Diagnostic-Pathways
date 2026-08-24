@@ -1,0 +1,127 @@
+{
+  "next_visit_diagnosis": {
+    "accuracy": 0.9107142857142857,
+    "macro_f1": 0.8883133640552995,
+    "n_positions": 168
+  },
+  "mci_to_ad_conversion": {
+    "trajectory_lstm": {
+      "auc": 0.2922374429223744,
+      "accuracy": 0.9342105263157895,
+      "n_test_positions": 76,
+      "n_test_conversions": 3
+    },
+    "cross_sectional_rf_baseline": {
+      "auc": 0.4109589041095891,
+      "accuracy": 0.8947368421052632,
+      "n_test_positions": 76,
+      "n_test_conversions": 3
+    },
+    "caveat": "Only 3 MCI->AD conversions in the test split (2 in val, 17 in train). AUC here is a methodology demo reproducing the plan's cited LSTM-vs-cross-sectional-RF comparison, not a validated result -- treat as illustrative, same spirit as Phase 1's honest calibration note."
+  },
+  "converter_subset_vs_persistence_baseline": {
+    "n_converter_positions": 3,
+    "model": {
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    "persistence_baseline": {
+      "accuracy": 0.0,
+      "macro_f1": 0.0
+    },
+    "note": "Persistence baseline predicts cur_diagnosis (no change), so by construction it scores 0 accuracy on every true converter position -- this subset isolates exactly the cases where longitudinal modeling should have something to add over a naive baseline."
+  },
+  "cdr_sb_slope_regression": {
+    "model_mae": 0.37066295742988586,
+    "naive_zero_change_baseline_mae": 0.4226190447807312,
+    "n_positions": 168
+  },
+  "cdr_sb_ad_threshold_used": 3.8,
+  "cdr_sb_ad_threshold_derivation": "Midpoint of MCI's 75th percentile CDR-SB (3.15) and AD's 25th percentile CDR-SB (4.395) on the TRAIN split -- a cohort-specific escalation trigger, not a clinical cutoff.",
+  "projection_examples": [
+    {
+      "status": "projected",
+      "current_cdr_sb": 2.3299999237060547,
+      "threshold": 3.8,
+      "projected_months_to_threshold_mean": 49.21922870131177,
+      "projected_months_ci": [
+        31.4174098122602,
+        66.10326266256187
+      ],
+      "frac_mc_passes_declining": 1.0,
+      "next_visit_ad_prob_mean": 0.18352767676115037,
+      "next_visit_ad_prob_std": 0.08175442192957896,
+      "subject_id": "SUBJ-0013",
+      "n_visits_observed": 5
+    },
+    {
+      "status": "already_at_or_above_threshold",
+      "current_cdr_sb": 3.809999942779541,
+      "threshold": 3.8,
+      "next_visit_ad_prob_mean": 0.5661377122004827,
+      "next_visit_ad_prob_std": 0.2656359441260664,
+      "subject_id": "SUBJ-0023",
+      "n_visits_observed": 5
+    },
+    {
+      "status": "projected",
+      "current_cdr_sb": 3.759999990463257,
+      "threshold": 3.8,
+      "projected_months_to_threshold_mean": 1.0914865674584946,
+      "projected_months_ci": [
+        0.8354670672651382,
+        1.4522807440775145
+      ],
+      "frac_mc_passes_declining": 1.0,
+      "next_visit_ad_prob_mean": 0.17514627575874328,
+      "next_visit_ad_prob_std": 0.061828679757851446,
+      "subject_id": "SUBJ-0033",
+      "n_visits_observed": 5
+    },
+    {
+      "status": "projected",
+      "current_cdr_sb": 3.0799999237060547,
+      "threshold": 3.8,
+      "projected_months_to_threshold_mean": 18.147792860899333,
+      "projected_months_ci": [
+        13.20216886333855,
+        23.96383904843398
+      ],
+      "frac_mc_passes_declining": 1.0,
+      "next_visit_ad_prob_mean": 0.20643634522954624,
+      "next_visit_ad_prob_std": 0.06841999960680285,
+      "subject_id": "SUBJ-0036",
+      "n_visits_observed": 5
+    },
+    {
+      "status": "projected",
+      "current_cdr_sb": 1.1799999475479126,
+      "threshold": 3.8,
+      "projected_months_to_threshold_mean": 71.03151964627426,
+      "projected_months_ci": [
+        58.38028125973591,
+        93.28260341875584
+      ],
+      "frac_mc_passes_declining": 1.0,
+      "next_visit_ad_prob_mean": 0.23688896422584851,
+      "next_visit_ad_prob_std": 0.10490675213192845,
+      "subject_id": "SUBJ-0052",
+      "n_visits_observed": 2
+    },
+    {
+      "status": "projected",
+      "current_cdr_sb": 2.450000047683716,
+      "threshold": 3.8,
+      "projected_months_to_threshold_mean": 39.25662093604085,
+      "projected_months_ci": [
+        31.410323024635016,
+        46.557183523167566
+      ],
+      "frac_mc_passes_declining": 1.0,
+      "next_visit_ad_prob_mean": 0.14477439373731613,
+      "next_visit_ad_prob_std": 0.046584435400039245,
+      "subject_id": "SUBJ-0058",
+      "n_visits_observed": 3
+    }
+  ]
+}

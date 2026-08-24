@@ -1,0 +1,66 @@
+{
+  "metric": "next-visit CDR-SB MAE (lower is better)",
+  "tft": {
+    "n_test_positions": 254,
+    "mae": 0.45076000690460205,
+    "mean_80pct_interval_width": 1.3868389129638672,
+    "empirical_80pct_coverage": 0.8228346456692913,
+    "quantile_levels": [
+      0.02,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      0.98
+    ],
+    "examples": [
+      {
+        "actual_next_cdr_sb": 2.130000114440918,
+        "predicted_next_cdr_sb_median": 1.3473899364471436,
+        "predicted_80pct_interval": [
+          0.7960997819900513,
+          2.1153931617736816
+        ]
+      },
+      {
+        "actual_next_cdr_sb": 2.3299999237060547,
+        "predicted_next_cdr_sb_median": 1.9026808738708496,
+        "predicted_80pct_interval": [
+          1.3257081508636475,
+          2.6560134887695312
+        ]
+      },
+      {
+        "actual_next_cdr_sb": 2.3299999237060547,
+        "predicted_next_cdr_sb_median": 1.9096572399139404,
+        "predicted_80pct_interval": [
+          1.317328929901123,
+          2.6724655628204346
+        ]
+      },
+      {
+        "actual_next_cdr_sb": 2.3299999237060547,
+        "predicted_next_cdr_sb_median": 2.243856430053711,
+        "predicted_80pct_interval": [
+          1.6034696102142334,
+          3.0103888511657715
+        ]
+      },
+      {
+        "actual_next_cdr_sb": 3.069999933242798,
+        "predicted_next_cdr_sb_median": 2.362536907196045,
+        "predicted_80pct_interval": [
+          1.7722172737121582,
+          3.0789995193481445
+        ]
+      }
+    ]
+  },
+  "lstm": {
+    "n_test_positions": 168,
+    "mae": 0.41066423058509827
+  },
+  "delta_mae_tft_minus_lstm": 0.040095776319503784,
+  "note": "Row counts differ (TFT: 254, LSTM: 168) because each model is evaluated on the largest held-out set it natively supports on the same test subjects, not an artificially matched subsample -- see module docstring. TFT's probabilistic interval (mean width 1.387 CDR-SB points, empirical 80% coverage 0.82) is the plan's actual pitch for this stretch goal ('probabilistic multi-horizon output' instead of a bare point estimate) -- it gets this natively from QuantileLoss, without the MC-Dropout forward-pass loop the LSTM needs for the same kind of interval (see evaluate_trajectory.py's project_time_to_threshold). Same running caveat as every other phase: this cohort's shared decline_rate latent and short per-subject visit histories (2-5 visits) cap how much any architecture, including a full TFT, can improve on the LSTM here -- a small MAE delta either direction should not be read as a validated 'TFT beats/loses to LSTM' result."
+}

@@ -1,0 +1,201 @@
+{
+  "module": "TrajectoryLSTM (Module B) next-visit diagnosis head",
+  "n_test_positions": 168,
+  "deterministic_pass": {
+    "accuracy": 0.9107142857142857,
+    "ece": 0.03542375564575195,
+    "reliability_bins": [
+      {
+        "bin_range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.2,
+          0.30000000000000004
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.30000000000000004,
+          0.4
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.4,
+          0.5
+        ],
+        "count": 1,
+        "avg_confidence": 0.47040441632270813,
+        "accuracy": 0.0
+      },
+      {
+        "bin_range": [
+          0.5,
+          0.6000000000000001
+        ],
+        "count": 1,
+        "avg_confidence": 0.5413071513175964,
+        "accuracy": 1.0
+      },
+      {
+        "bin_range": [
+          0.6000000000000001,
+          0.7000000000000001
+        ],
+        "count": 3,
+        "avg_confidence": 0.6284163594245911,
+        "accuracy": 0.3333333432674408
+      },
+      {
+        "bin_range": [
+          0.7000000000000001,
+          0.8
+        ],
+        "count": 7,
+        "avg_confidence": 0.7643194794654846,
+        "accuracy": 0.8571428656578064
+      },
+      {
+        "bin_range": [
+          0.8,
+          0.9
+        ],
+        "count": 78,
+        "avg_confidence": 0.8504194617271423,
+        "accuracy": 0.8717948794364929
+      },
+      {
+        "bin_range": [
+          0.9,
+          1.0
+        ],
+        "count": 78,
+        "avg_confidence": 0.9638487100601196,
+        "accuracy": 0.9871794581413269
+      }
+    ]
+  },
+  "mc_dropout": {
+    "n_passes": 30,
+    "accuracy": 0.9107142857142857,
+    "ece": 0.05885262876039459,
+    "reliability_bins": [
+      {
+        "bin_range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.2,
+          0.30000000000000004
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.30000000000000004,
+          0.4
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.4,
+          0.5
+        ],
+        "count": 0,
+        "avg_confidence": null,
+        "accuracy": null
+      },
+      {
+        "bin_range": [
+          0.5,
+          0.6000000000000001
+        ],
+        "count": 5,
+        "avg_confidence": 0.555269718170166,
+        "accuracy": 0.6000000238418579
+      },
+      {
+        "bin_range": [
+          0.6000000000000001,
+          0.7000000000000001
+        ],
+        "count": 3,
+        "avg_confidence": 0.6670845150947571,
+        "accuracy": 0.3333333432674408
+      },
+      {
+        "bin_range": [
+          0.7000000000000001,
+          0.8
+        ],
+        "count": 23,
+        "avg_confidence": 0.7641777992248535,
+        "accuracy": 0.8695651888847351
+      },
+      {
+        "bin_range": [
+          0.8,
+          0.9
+        ],
+        "count": 68,
+        "avg_confidence": 0.841768741607666,
+        "accuracy": 0.8970588445663452
+      },
+      {
+        "bin_range": [
+          0.9,
+          1.0
+        ],
+        "count": 69,
+        "avg_confidence": 0.9495840668678284,
+        "accuracy": 0.9855072498321533
+      }
+    ],
+    "mean_total_uncertainty": 0.40233179926872253,
+    "mean_aleatoric": 0.3702642023563385,
+    "mean_epistemic": 0.03206757828593254
+  },
+  "note": "Closes the Phase 4 'Module A/B' gap -- the first Phase 4 pass only covered Module A (evaluate_uncertainty.py). Same MC Dropout / ECE / aleatoric-epistemic machinery, applied here to the longitudinal next-visit head instead of the single-visit classifier."
+}

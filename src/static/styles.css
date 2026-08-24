@@ -1,0 +1,140 @@
+/* Modern Clinical AI UI Theme */
+
+.nav-tab {
+  padding: 0.65rem 1rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #94a3b8;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  color: #f1f5f9;
+}
+
+.nav-tab.active-tab {
+  color: #06b6d4;
+  border-bottom-color: #06b6d4;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.input-field {
+  width: 100%;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  color: #f8fafc;
+  font-size: 0.775rem;
+  transition: border-color 0.15s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #06b6d4;
+}
+
+.preset-btn {
+  background-color: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.725rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.preset-btn:hover {
+  background-color: #334155;
+  color: #f8fafc;
+  border-color: #06b6d4;
+}
+
+.toggle-track {
+  width: 2.25rem;
+  height: 1.25rem;
+  background-color: #334155;
+  border-radius: 9999px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: white;
+  border-radius: 9999px;
+  transition: transform 0.2s;
+}
+
+.peer:checked ~ .toggle-track::after {
+  transform: translateX(1rem);
+}
+
+.prob-bar-track {
+  width: 100%;
+  height: 0.5rem;
+  background-color: #1e293b;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.prob-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.token-card {
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 0.75rem;
+  padding: 0.6rem;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.token-card:hover {
+  transform: translateY(-2px);
+  border-color: #06b6d4;
+}
+
+.stat-card {
+  background: #090e1a;
+  border: 1px solid #1e293b;
+  border-radius: 0.875rem;
+  padding: 0.85rem;
+}
+
+.pathway-step-card {
+  border-radius: 0.875rem;
+  border: 1px solid;
+  padding: 0.85rem;
+  transition: all 0.2s;
+}

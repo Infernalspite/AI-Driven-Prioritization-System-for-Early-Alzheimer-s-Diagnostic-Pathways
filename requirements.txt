@@ -1,0 +1,19 @@
+pandas>=2.0
+numpy>=1.24
+torch>=2.0
+scikit-learn>=1.3
+gymnasium>=1.0
+stable-baselines3>=2.0
+optuna>=4.0
+pytorch-forecasting>=1.8.0
+lightning>=2.6.0
+kagglehub>=0.3  # Phase 5A: OASIS Longitudinal auto-download (optional; manual CSV download also supported)
+# Note on Phase 5C's SMOTE comparison: the plan names imbalanced-learn for this, but
+# src/smote_baseline.py implements Chawla et al. (2002)'s algorithm directly on top of
+# scikit-learn's NearestNeighbors (already a transitive dependency via scikit-learn>=1.3)
+# instead of adding the extra package, since this dev sandbox has no network access to
+# verify an imbalanced-learn install and the comparison only needs the core SMOTE
+# interpolation step, not the rest of that library's API surface.
+shap>=0.46          # Phase 6: SHAP explanation of the frozen fusion model (not installed/executable in this dev sandbox -- no network)
+dowhy>=0.11          # Phase 6: optional proper backdoor-adjustment estimate via a causal graph (also not installed here; src/causal_explainability.py falls back to a from-scratch Frisch-Waugh-Lovell linear adjustment that needs neither dowhy nor network access, and is what's actually been run)
+pulp>=2.8            # Phase 7: MILP knapsack solve (also not installed here; src/resource_optimizer.py falls back to an exact dynamic-programming knapsack solver, verified against brute-force enumeration, and is what's actually been run)

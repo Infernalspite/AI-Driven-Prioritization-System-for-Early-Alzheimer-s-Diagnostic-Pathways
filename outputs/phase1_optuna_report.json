@@ -1,0 +1,348 @@
+{
+  "search_space": {
+    "embed_dim": [
+      16,
+      24,
+      32,
+      48,
+      64
+    ],
+    "lr": "loguniform(1e-4, 5e-3)",
+    "batch_size": [
+      16,
+      32,
+      64
+    ],
+    "dropout": "uniform(0.1, 0.4)",
+    "weight_decay": "loguniform(1e-6, 1e-3)"
+  },
+  "n_trials_requested": 25,
+  "n_trials_completed": 25,
+  "n_trials_pruned": 8,
+  "trial_epochs": 25,
+  "final_epochs": 60,
+  "best_trial_number": 23,
+  "best_params": {
+    "embed_dim": 16,
+    "lr": 0.0019053070322644784,
+    "batch_size": 16,
+    "dropout": 0.2140548179158332,
+    "weight_decay": 6.839305822689303e-06
+  },
+  "best_trial_val_macro_f1": 0.9397910731244065,
+  "pretune": {
+    "checkpoint": "checkpoints/fusion_pretune_best.pt (default hyperparams: embed_dim=32, lr=1e-3, batch_size=32, dropout=0.2, weight_decay=1e-5, 40 epochs -- the run_phase1.py defaults)",
+    "test_accuracy": 0.9139344262295082,
+    "test_macro_f1": 0.898513251454428
+  },
+  "posttune": {
+    "checkpoint": "checkpoints/fusion_best.pt (overwritten with tuned config, retrained for 60 epochs)",
+    "val_macro_f1": 0.9397910731244065,
+    "test_accuracy": 0.9139344262295082,
+    "test_macro_f1": 0.8988026101369
+  },
+  "delta_test_macro_f1": 0.00028935868247204066,
+  "trials": [
+    {
+      "number": 0,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9307590491234681,
+      "params": {
+        "embed_dim": 24,
+        "lr": 0.00018408992080552527,
+        "batch_size": 32,
+        "dropout": 0.3124217733388137,
+        "weight_decay": 1.1527987128232402e-06
+      }
+    },
+    {
+      "number": 1,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9374802550563174,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0003287747413991121,
+        "batch_size": 16,
+        "dropout": 0.2835558684167139,
+        "weight_decay": 2.62108787826544e-06
+      }
+    },
+    {
+      "number": 2,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9331473967355227,
+      "params": {
+        "embed_dim": 48,
+        "lr": 0.000747599299995651,
+        "batch_size": 64,
+        "dropout": 0.15115723710618748,
+        "weight_decay": 1.5673095467235414e-06
+      }
+    },
+    {
+      "number": 3,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9388987621031989,
+      "params": {
+        "embed_dim": 24,
+        "lr": 0.0014537555576161927,
+        "batch_size": 64,
+        "dropout": 0.11031655633456552,
+        "weight_decay": 0.0005345166110646819
+      }
+    },
+    {
+      "number": 4,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9341009450703645,
+      "params": {
+        "embed_dim": 24,
+        "lr": 0.0002060924941320236,
+        "batch_size": 16,
+        "dropout": 0.3684482051282947,
+        "weight_decay": 6.218704727769077e-05
+      }
+    },
+    {
+      "number": 5,
+      "state": "TrialState.PRUNED",
+      "value": 0.9143476953265591,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.00045745782054754043,
+        "batch_size": 32,
+        "dropout": 0.18428035290621425,
+        "weight_decay": 4.247058562261871e-05
+      }
+    },
+    {
+      "number": 6,
+      "state": "TrialState.PRUNED",
+      "value": 0.9217907502441229,
+      "params": {
+        "embed_dim": 48,
+        "lr": 0.00021757649801197563,
+        "batch_size": 32,
+        "dropout": 0.3187021504122962,
+        "weight_decay": 0.00020597335357437193
+      }
+    },
+    {
+      "number": 7,
+      "state": "TrialState.PRUNED",
+      "value": 0.9097425110046355,
+      "params": {
+        "embed_dim": 48,
+        "lr": 0.0003649100451857361,
+        "batch_size": 64,
+        "dropout": 0.3188818535014193,
+        "weight_decay": 8.178476574339548e-05
+      }
+    },
+    {
+      "number": 8,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9374802550563174,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0008986552644007198,
+        "batch_size": 16,
+        "dropout": 0.2282623055075649,
+        "weight_decay": 1.1919481947918734e-06
+      }
+    },
+    {
+      "number": 9,
+      "state": "TrialState.PRUNED",
+      "value": 0.9041802537972519,
+      "params": {
+        "embed_dim": 32,
+        "lr": 0.0034827974366176905,
+        "batch_size": 64,
+        "dropout": 0.16863944964748676,
+        "weight_decay": 1.7019223026554036e-06
+      }
+    },
+    {
+      "number": 10,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9364695958898857,
+      "params": {
+        "embed_dim": 64,
+        "lr": 0.003275282621278537,
+        "batch_size": 64,
+        "dropout": 0.10538856268444591,
+        "weight_decay": 0.0008499753982909314
+      }
+    },
+    {
+      "number": 11,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9374802550563174,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.00167759926847212,
+        "batch_size": 16,
+        "dropout": 0.2483932904266163,
+        "weight_decay": 1.2728917457192951e-05
+      }
+    },
+    {
+      "number": 12,
+      "state": "TrialState.PRUNED",
+      "value": 0.8608702108702109,
+      "params": {
+        "embed_dim": 24,
+        "lr": 0.0001057108240890919,
+        "batch_size": 16,
+        "dropout": 0.3955997591694583,
+        "weight_decay": 7.841266717162069e-06
+      }
+    },
+    {
+      "number": 13,
+      "state": "TrialState.COMPLETE",
+      "value": 0.934142413887907,
+      "params": {
+        "embed_dim": 64,
+        "lr": 0.0014862885617791498,
+        "batch_size": 16,
+        "dropout": 0.10549543776014772,
+        "weight_decay": 0.0006123171455589424
+      }
+    },
+    {
+      "number": 14,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9308040999966171,
+      "params": {
+        "embed_dim": 32,
+        "lr": 0.0048498924801978725,
+        "batch_size": 64,
+        "dropout": 0.24881239365091434,
+        "weight_decay": 7.702305299942149e-06
+      }
+    },
+    {
+      "number": 15,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9341740954410312,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0012894659385742717,
+        "batch_size": 64,
+        "dropout": 0.2127053867943939,
+        "weight_decay": 2.0731037901845106e-05
+      }
+    },
+    {
+      "number": 16,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9341009450703645,
+      "params": {
+        "embed_dim": 24,
+        "lr": 0.0004878619956431299,
+        "batch_size": 16,
+        "dropout": 0.27687987183048185,
+        "weight_decay": 0.00024773342515564136
+      }
+    },
+    {
+      "number": 17,
+      "state": "TrialState.PRUNED",
+      "value": 0.9241240719002555,
+      "params": {
+        "embed_dim": 24,
+        "lr": 0.0024265204837841553,
+        "batch_size": 64,
+        "dropout": 0.14164385126577628,
+        "weight_decay": 3.870677301261949e-06
+      }
+    },
+    {
+      "number": 18,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9341740954410312,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0007986634247985847,
+        "batch_size": 16,
+        "dropout": 0.28089735212454875,
+        "weight_decay": 0.00016728599103763006
+      }
+    },
+    {
+      "number": 19,
+      "state": "TrialState.PRUNED",
+      "value": 0.9010009994241498,
+      "params": {
+        "embed_dim": 32,
+        "lr": 0.00011386875416610206,
+        "batch_size": 32,
+        "dropout": 0.19801522754927844,
+        "weight_decay": 3.445753836575607e-05
+      }
+    },
+    {
+      "number": 20,
+      "state": "TrialState.PRUNED",
+      "value": 0.9176470588235294,
+      "params": {
+        "embed_dim": 64,
+        "lr": 0.00030971934162219247,
+        "batch_size": 64,
+        "dropout": 0.35260589998003017,
+        "weight_decay": 0.00040628245911786536
+      }
+    },
+    {
+      "number": 21,
+      "state": "TrialState.COMPLETE",
+      "value": 0.934142413887907,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0010268372077964153,
+        "batch_size": 16,
+        "dropout": 0.23664105532181642,
+        "weight_decay": 3.540780530445772e-06
+      }
+    },
+    {
+      "number": 22,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9341740954410312,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0006657591194408084,
+        "batch_size": 16,
+        "dropout": 0.2807126545347694,
+        "weight_decay": 2.843156651197287e-06
+      }
+    },
+    {
+      "number": 23,
+      "state": "TrialState.COMPLETE",
+      "value": 0.9397910731244065,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0019053070322644784,
+        "batch_size": 16,
+        "dropout": 0.2140548179158332,
+        "weight_decay": 6.839305822689303e-06
+      }
+    },
+    {
+      "number": 24,
+      "state": "TrialState.COMPLETE",
+      "value": 0.934142413887907,
+      "params": {
+        "embed_dim": 16,
+        "lr": 0.0022264105369834315,
+        "batch_size": 16,
+        "dropout": 0.1326546362065194,
+        "weight_decay": 8.567324427836871e-06
+      }
+    }
+  ],
+  "note": "Optuna optimizes VAL macro-F1 only (never test, to avoid tuning-set leakage into the number reported as generalization performance); test macro-F1 above is reported purely for the before/after comparison, exactly like Phase 1's baseline-vs-fusion comparison. On this ~1.5k-row synthetic cohort, sweep gains are expected to be modest -- the plan's own honest-caveat theme (shared decline_rate latent capping how much any architecture choice can move the needle) applies here too."
+}

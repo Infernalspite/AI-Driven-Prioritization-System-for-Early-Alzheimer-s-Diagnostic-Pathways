@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Alzheimer's Diagnostic Prioritization & Pathway System</title>
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+  <!-- TOP HEADER & STATUS BAR -->
+  <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+          <i class="fa-solid fa-brain text-white text-lg"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            NeuroPrioritize <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Phases 0–7 v2</span>
+          </h1>
+          <p class="text-xs text-slate-400">AI-Driven Prioritization System for Early Alzheimer's Diagnostic Pathways</p>
+        </div>
+      </div>
+
+      <!-- Module Status Pills -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="px-2.5 py-1 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 flex items-center gap-1.5 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Mod A: Cross-Attention
+        </span>
+        <span class="px-2.5 py-1 rounded-full bg-indigo-950/60 text-indigo-400 border border-indigo-800/40 flex items-center gap-1.5 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> Mod B: Trajectory LSTM
+        </span>
+        <span class="px-2.5 py-1 rounded-full bg-purple-950/60 text-purple-400 border border-purple-800/40 flex items-center gap-1.5 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span> Mod C: RL Pathway
+        </span>
+        <span class="px-2.5 py-1 rounded-full bg-amber-950/60 text-amber-400 border border-amber-800/40 flex items-center gap-1.5 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Mod D: Uncertainty
+        </span>
+        <span class="px-2.5 py-1 rounded-full bg-rose-950/60 text-rose-400 border border-rose-800/40 flex items-center gap-1.5 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Mod E: Causal
+        </span>
+        <span class="px-2.5 py-1 rounded-full bg-cyan-950/60 text-cyan-400 border border-cyan-800/40 flex items-center gap-1.5 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Mod F: Knapsack
+        </span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto space-x-1 border-t border-slate-800/60 pt-1 scrollbar-none">
+      <button onclick="switchTab('diagnosis')" id="tab-btn-diagnosis" class="nav-tab active-tab">
+        <i class="fa-solid fa-microscope mr-1.5"></i> Multimodal Workstation
+      </button>
+      <button onclick="switchTab('trajectory')" id="tab-btn-trajectory" class="nav-tab">
+        <i class="fa-solid fa-chart-line mr-1.5"></i> Digital Twin & Trajectory
+      </button>
+      <button onclick="switchTab('pathway')" id="tab-btn-pathway" class="nav-tab">
+        <i class="fa-solid fa-diagram-project mr-1.5"></i> Adaptive RL Pathway
+      </button>
+      <button onclick="switchTab('causal')" id="tab-btn-causal" class="nav-tab">
+        <i class="fa-solid fa-scale-balanced mr-1.5"></i> Causal & Counterfactuals
+      </button>
+      <button onclick="switchTab('population')" id="tab-btn-population" class="nav-tab">
+        <i class="fa-solid fa-users-gear mr-1.5"></i> Population Resource Triage
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: MULTIMODAL WORKSTATION & CROSS-ATTENTION DIAGNOSIS -->
+    <!-- ===================================================================== -->
+    <div id="tab-content-diagnosis" class="tab-pane active space-y-6">
+      <!-- Cohort Quick Selector & Mode Switch -->
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <label for="cohort-patient-select" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <i class="fa-solid fa-user-circle text-cyan-400 mr-1"></i> Select Cohort Subject:
+          </label>
+          <select id="cohort-patient-select" onchange="loadSelectedPatient()" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+            <option value="">-- Load Existing Cohort Patient --</option>
+          </select>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="applyPreset('early_mci')" class="preset-btn">Preset: Early MCI</button>
+          <button onclick="applyPreset('borderline_ad')" class="preset-btn">Preset: Borderline AD</button>
+          <button onclick="applyPreset('healthy_cn')" class="preset-btn">Preset: Healthy CN</button>
+          <button onclick="applyPreset('missing_pet_mri')" class="preset-btn">Preset: Cognitive-Only</button>
+        </div>
+      </div>
+
+      <!-- Grid Layout: Inputs & Results -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left Column: Biomarker Input Matrix -->
+        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h2 class="font-semibold text-slate-200 flex items-center gap-2">
+              <i class="fa-solid fa-sliders text-cyan-400"></i> Multimodal Biomarker Matrix
+            </h2>
+            <span class="text-xs text-slate-400">Dynamic Masking Enabled</span>
+          </div>
+
+          <form id="diagnosis-form" onsubmit="event.preventDefault(); runDiagnosis();" class="space-y-4 text-xs">
+            <!-- Demographics (Static) -->
+            <div>
+              <div class="text-slate-400 font-semibold mb-1 flex items-center justify-between">
+                <span><i class="fa-solid fa-address-card text-indigo-400 mr-1"></i> Static Demographics</span>
+                <span class="text-indigo-400 font-normal">Always Present</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Age (years)</label>
+                  <input type="number" id="input-age" value="74.0" step="0.5" class="input-field">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Education (years)</label>
+                  <input type="number" id="input-education_years" value="16.0" step="0.5" class="input-field">
+                </div>
+              </div>
+            </div>
+
+            <!-- Modality 1: Cognitive Tests -->
+            <div class="border-t border-slate-800 pt-3">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-slate-400 font-semibold"><i class="fa-solid fa-clipboard-check text-cyan-400 mr-1"></i> 1. Cognitive Battery</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="mask-cognitive" checked onchange="toggleModality('cognitive')" class="sr-only peer">
+                  <div class="toggle-track peer-checked:bg-cyan-600"></div>
+                </label>
+              </div>
+              <div id="group-cognitive" class="grid grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">MMSE (0-30)</label>
+                  <input type="number" id="input-MMSE" value="23.0" step="0.5" class="input-field">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">ADAS13 (0-85)</label>
+                  <input type="number" id="input-ADAS13" value="18.5" step="0.5" class="input-field">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">CDR-SB (0-18)</label>
+                  <input type="number" id="input-CDR_SB" value="2.5" step="0.1" class="input-field">
+                </div>
+              </div>
+            </div>
+
+            <!-- Modality 2: Plasma Biomarkers -->
+            <div class="border-t border-slate-800 pt-3">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-slate-400 font-semibold"><i class="fa-solid fa-vial-virus text-purple-400 mr-1"></i> 2. Plasma Blood Biomarkers</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="mask-blood" checked onchange="toggleModality('blood')" class="sr-only peer">
+                  <div class="toggle-track peer-checked:bg-purple-600"></div>
+                </label>
+              </div>
+              <div id="group-blood" class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Aβ42/40 Ratio</label>
+                  <input type="number" id="input-abeta42_40_ratio" value="0.082" step="0.001" class="input-field">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">p-tau181 (pg/mL)</label>
+                  <input type="number" id="input-ptau181" value="2.4" step="0.1" class="input-field">
+                </div>
+              </div>
+            </div>
+
+            <!-- Modality 3: Structural MRI -->
+            <div class="border-t border-slate-800 pt-3">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-slate-400 font-semibold"><i class="fa-solid fa-circle-notch text-blue-400 mr-1"></i> 3. Structural MRI (Volumetrics)</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="mask-mri" checked onchange="toggleModality('mri')" class="sr-only peer">
+                  <div class="toggle-track peer-checked:bg-blue-600"></div>
+                </label>
+              </div>
+              <div id="group-mri" class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Hippocampal Vol (mm³)</label>
+                  <input type="number" id="input-hippocampal_volume_mm3" value="3150" step="10" class="input-field">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Cortical Thickness (mm)</label>
+                  <input type="number" id="input-cortical_thickness_mm" value="2.28" step="0.01" class="input-field">
+                </div>
+              </div>
+            </div>
+
+            <!-- Modality 4: Amyloid PET -->
+            <div class="border-t border-slate-800 pt-3">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-slate-400 font-semibold"><i class="fa-solid fa-radiation text-rose-400 mr-1"></i> 4. Amyloid PET (SUVR)</span>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="mask-pet" checked onchange="toggleModality('pet')" class="sr-only peer">
+                  <div class="toggle-track peer-checked:bg-rose-600"></div>
+                </label>
+              </div>
+              <div id="group-pet">
+                <label class="block text-slate-400 mb-0.5">Centiloid / SUVR Summary</label>
+                <input type="number" id="input-pet_amyloid_suvr" value="1.42" step="0.01" class="input-field">
+              </div>
+            </div>
+
+            <button type="submit" class="w-full mt-4 bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg shadow-cyan-600/30 transition duration-200 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-bolt"></i> Run Cross-Attention Fusion Diagnosis
+            </button>
+          </form>
+        </div>
+
+        <!-- Right Column: Model Outputs, Uncertainty & Attention Heatmap -->
+        <div class="lg:col-span-7 space-y-6">
+          <!-- Prediction Hero Card -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 gap-3">
+              <div>
+                <span class="text-xs text-slate-400 font-medium">Diagnostic Classification (Module A)</span>
+                <div class="flex items-center gap-3 mt-1">
+                  <h3 id="diag-prediction-badge" class="text-2xl font-black px-3.5 py-1 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    MCI (Mild Cognitive Impairment)
+                  </h3>
+                  <div class="text-xs">
+                    <span class="text-slate-400">Model Confidence:</span>
+                    <span id="diag-confidence-text" class="font-bold text-white text-sm ml-1">84.2%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs text-slate-400">Modal Synergy Score:</span>
+                <div id="modal-synergy-badge" class="text-sm font-bold text-cyan-400 flex items-center justify-end gap-1">
+                  <i class="fa-solid fa-circle-nodes"></i> <span id="synergy-val">0.1824</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Probabilities Bars & Uncertainty Breakdown -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+              <!-- Class Probabilities -->
+              <div>
+                <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Class Posterior Distribution</h4>
+                <div class="space-y-2">
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-slate-300 font-medium">Cognitively Normal (CN)</span>
+                      <span id="prob-cn-text" class="text-slate-400 font-bold">5.2%</span>
+                    </div>
+                    <div class="prob-bar-track">
+                      <div id="prob-cn-bar" class="prob-bar-fill bg-emerald-500" style="width: 5.2%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-slate-300 font-medium">Mild Cognitive Impairment (MCI)</span>
+                      <span id="prob-mci-text" class="text-slate-400 font-bold">84.2%</span>
+                    </div>
+                    <div class="prob-bar-track">
+                      <div id="prob-mci-bar" class="prob-bar-fill bg-amber-500" style="width: 84.2%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-slate-300 font-medium">Alzheimer's Disease (AD)</span>
+                      <span id="prob-ad-text" class="text-slate-400 font-bold">10.6%</span>
+                    </div>
+                    <div class="prob-bar-track">
+                      <div id="prob-ad-bar" class="prob-bar-fill bg-rose-500" style="width: 10.6%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Uncertainty Decomposition (Module D) -->
+              <div class="bg-slate-950/60 rounded-xl p-3.5 border border-slate-800/80">
+                <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+                  <span><i class="fa-solid fa-gauge-high text-amber-400 mr-1"></i> Calibrated Uncertainty</span>
+                  <span class="text-[10px] text-slate-400 font-normal">30 MC Passes</span>
+                </h4>
+                <div class="space-y-2 text-xs">
+                  <div class="flex justify-between items-center py-1 border-b border-slate-800/60">
+                    <span class="text-slate-400">Aleatoric (Data Noise):</span>
+                    <span id="aleatoric-val" class="font-mono font-semibold text-slate-200">0.342</span>
+                  </div>
+                  <div class="flex justify-between items-center py-1 border-b border-slate-800/60">
+                    <span class="text-slate-400">Epistemic (Model Ambiguity):</span>
+                    <span id="epistemic-val" class="font-mono font-semibold text-amber-400">0.028</span>
+                  </div>
+                  <div class="flex justify-between items-center py-1">
+                    <span class="text-slate-400">Total Entropy:</span>
+                    <span id="total-entropy-val" class="font-mono font-semibold text-slate-200">0.370</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cross-Modal Attention Weights Visualizer -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <h3 class="font-semibold text-slate-200 text-sm mb-1 flex items-center gap-2">
+              <i class="fa-solid fa-network-wired text-cyan-400"></i> Multi-Head Cross-Attention Token Weights
+            </h3>
+            <p class="text-xs text-slate-400 mb-3">Attention allocation across present modality tokens during CLS representation pooling.</p>
+            <div id="attention-tokens-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+              <!-- Dynamically rendered token cards -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 2: DIGITAL TWIN & LONGITUDINAL TRAJECTORY FORECASTING -->
+    <!-- ===================================================================== -->
+    <div id="tab-content-trajectory" class="tab-pane space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 gap-4">
+          <div>
+            <h2 class="font-semibold text-slate-200 text-base flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-indigo-400"></i> 48-Month Patient Digital Twin & Disease Progression Forecast
+            </h2>
+            <p class="text-xs text-slate-400">Continuous probabilistic multi-horizon forecasting with combined aleatoric & epistemic confidence envelopes.</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <label class="text-xs text-slate-400">Subject:</label>
+            <select id="traj-patient-select" onchange="loadTrajectoryForPatient()" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200">
+              <!-- Options populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Trajectory Metrics Summary -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="stat-card">
+            <span class="text-xs text-slate-400">Annual CDR-SB Progression Slope</span>
+            <div id="traj-slope-val" class="text-xl font-bold text-indigo-400 mt-1">+0.52 / yr</div>
+            <span class="text-[10px] text-slate-400">Estimated cognitive decline velocity</span>
+          </div>
+          <div class="stat-card">
+            <span class="text-xs text-slate-400">Estimated Time to AD Conversion</span>
+            <div id="traj-conversion-val" class="text-xl font-bold text-amber-400 mt-1">~24 Months</div>
+            <span class="text-[10px] text-slate-400">Threshold crossing: CDR-SB ≥ 4.5</span>
+          </div>
+          <div class="stat-card">
+            <span class="text-xs text-slate-400">Longitudinal Model Backing</span>
+            <div class="text-base font-bold text-emerald-400 mt-1">Module B (LSTM / TFT)</div>
+            <span class="text-[10px] text-slate-400">Trained on multi-visit sequence history</span>
+          </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="bg-slate-950/80 rounded-xl p-4 border border-slate-800 relative h-80">
+          <canvas id="trajectoryChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 3: ADAPTIVE RL DIAGNOSTIC PATHWAY STEPPER -->
+    <!-- ===================================================================== -->
+    <div id="tab-content-pathway" class="tab-pane space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="border-b border-slate-800 pb-3">
+          <h2 class="font-semibold text-slate-200 text-base flex items-center gap-2">
+            <i class="fa-solid fa-diagram-project text-purple-400"></i> Sequential Reinforcement Learning Diagnostic Pathway
+          </h2>
+          <p class="text-xs text-slate-400">MDP policy optimizing accuracy vs test cost and patient invasiveness (SM-DDPO / PPO).</p>
+        </div>
+
+        <!-- Interactive Stepper Ladder -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <div id="step-card-cognitive" class="pathway-step-card border-cyan-500/50 bg-cyan-950/20">
+            <div class="text-xs font-semibold text-cyan-400 flex items-center justify-between">
+              <span>Stage 1: Cognitive</span>
+              <i class="fa-solid fa-check-circle text-emerald-400"></i>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">MMSE, ADAS13, CDR-SB</p>
+            <div class="mt-2 text-[10px] text-slate-400">Cost: Free · Invasiveness: None</div>
+          </div>
+
+          <div id="step-card-blood" class="pathway-step-card border-purple-500/50 bg-purple-950/20">
+            <div class="text-xs font-semibold text-purple-400 flex items-center justify-between">
+              <span>Stage 2: Plasma Biomarkers</span>
+              <button onclick="togglePathwayTest('blood')" id="btn-toggle-blood" class="text-xs text-purple-300 underline">Order</button>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Aβ42/40 ratio, p-tau181</p>
+            <div class="mt-2 text-[10px] text-slate-400">Cost: $ · Invasiveness: Low</div>
+          </div>
+
+          <div id="step-card-mri" class="pathway-step-card border-blue-500/50 bg-blue-950/20">
+            <div class="text-xs font-semibold text-blue-400 flex items-center justify-between">
+              <span>Stage 3: Structural MRI</span>
+              <button onclick="togglePathwayTest('mri')" id="btn-toggle-mri" class="text-xs text-blue-300 underline">Order</button>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Hippocampal volume & thickness</p>
+            <div class="mt-2 text-[10px] text-slate-400">Cost: $$$ · Invasiveness: Med</div>
+          </div>
+
+          <div id="step-card-pet" class="pathway-step-card border-rose-500/50 bg-rose-950/20">
+            <div class="text-xs font-semibold text-rose-400 flex items-center justify-between">
+              <span>Stage 4: Amyloid PET</span>
+              <button onclick="togglePathwayTest('pet')" id="btn-toggle-pet" class="text-xs text-rose-300 underline">Order</button>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Centiloid SUVR Amyloid Scan</p>
+            <div class="mt-2 text-[10px] text-slate-400">Cost: $$$$$ · Invasiveness: High</div>
+          </div>
+        </div>
+
+        <!-- Current Recommendation Box -->
+        <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <span class="text-xs text-slate-400">RL Recommended Action:</span>
+              <div id="pathway-rec-action" class="text-lg font-black text-purple-400">ORDER_BLOOD</div>
+            </div>
+            <div class="flex items-center space-x-4 text-xs">
+              <div>
+                <span class="text-slate-400">Cumulative Cost:</span>
+                <span id="pathway-cost-val" class="font-bold text-slate-200 ml-1">1.0 pts</span>
+              </div>
+              <div>
+                <span class="text-slate-400">Cumulative Invasiveness:</span>
+                <span id="pathway-inv-val" class="font-bold text-slate-200 ml-1">1.0 pts</span>
+              </div>
+              <div>
+                <span class="text-slate-400">Expected Value of Info:</span>
+                <span id="pathway-voi-val" class="font-bold text-cyan-400 ml-1">+0.145</span>
+              </div>
+            </div>
+          </div>
+          <p id="pathway-rationale-text" class="text-xs text-slate-300 bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+            Epistemic uncertainty is elevated. Escalating to Plasma Biomarkers is projected to resolve diagnostic ambiguity with high expected return.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 4: CAUSAL & COUNTERFACTUAL LAB -->
+    <!-- ===================================================================== -->
+    <div id="tab-content-causal" class="tab-pane space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left: Frisch-Waugh-Lovell Backdoor Adjustment Chart -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="font-semibold text-slate-200 text-base flex items-center gap-2">
+              <i class="fa-solid fa-scale-balanced text-rose-400"></i> Causal Confounder Adjustment (Module E)
+            </h2>
+            <p class="text-xs text-slate-400">Frisch-Waugh-Lovell theorem controlling for age & education confounders on CDR-SB severity.</p>
+          </div>
+          <div class="bg-slate-950/80 rounded-xl p-3 border border-slate-800 relative h-64">
+            <canvas id="causalChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Right: Counterfactual Simulation Engine -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="font-semibold text-slate-200 text-base flex items-center gap-2">
+              <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> Counterfactual Clinical Intervention Simulator
+            </h2>
+            <p class="text-xs text-slate-400">Simulate targeted drug interventions or lifestyle modifications on progression risk.</p>
+          </div>
+
+          <div class="space-y-4 text-xs">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-slate-300">p-tau181 Reduction (%):</span>
+                <span id="cf-ptau-label" class="font-bold text-cyan-400">-30%</span>
+              </div>
+              <input type="range" id="cf-ptau-slider" min="0" max="60" value="30" oninput="runCounterfactual()" class="w-full accent-cyan-500">
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-slate-300">Cognitive Reserve / Education Boost:</span>
+                <span id="cf-edu-label" class="font-bold text-indigo-400">+2 Years</span>
+              </div>
+              <input type="range" id="cf-edu-slider" min="0" max="6" value="2" oninput="runCounterfactual()" class="w-full accent-indigo-500">
+            </div>
+
+            <!-- Results Summary Card -->
+            <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 space-y-3">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <span class="text-slate-400">AD Risk Reduction:</span>
+                  <div id="cf-ad-red-val" class="text-base font-bold text-emerald-400">-12.4%</div>
+                </div>
+                <div>
+                  <span class="text-slate-400">Projected Decline Retardation:</span>
+                  <div id="cf-slope-red-val" class="text-base font-bold text-cyan-400">-18.6% / yr</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 5: POPULATION RESOURCE TRIAGE -->
+    <!-- ===================================================================== -->
+    <div id="tab-content-population" class="tab-pane space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 gap-4">
+          <div>
+            <h2 class="font-semibold text-slate-200 text-base flex items-center gap-2">
+              <i class="fa-solid fa-users-gear text-cyan-400"></i> Population-Level Resource-Constrained Knapsack Allocator
+            </h2>
+            <p class="text-xs text-slate-400">Exact Dynamic Programming solver allocating scarce PET & MRI imaging slots to maximize diagnostic yield.</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="text-xs text-slate-400">Clinic Budget / Capacity:</span>
+            <input type="range" id="capacity-slider" min="10" max="250" value="50" step="10" oninput="updateCapacityAllocation()" class="w-36 accent-cyan-500">
+            <span id="capacity-val-label" class="text-sm font-bold text-cyan-400 w-12">50 pts</span>
+          </div>
+        </div>
+
+        <!-- Allocation Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div class="stat-card">
+            <span class="text-xs text-slate-400">Selected Patients</span>
+            <div id="pop-selected-count" class="text-xl font-bold text-cyan-400 mt-1">14 / 248</div>
+            <span class="text-[10px] text-slate-400">Prioritized for escalation</span>
+          </div>
+          <div class="stat-card">
+            <span class="text-xs text-slate-400">Total Population Yield</span>
+            <div id="pop-total-yield" class="text-xl font-bold text-emerald-400 mt-1">3.5407</div>
+            <span class="text-[10px] text-slate-400">Information gain × ambiguity resolved</span>
+          </div>
+          <div class="stat-card">
+            <span class="text-xs text-slate-400">Budget Utilization</span>
+            <div id="pop-utilization" class="text-xl font-bold text-indigo-400 mt-1">100.0%</div>
+            <span class="text-[10px] text-slate-400">Optimal knapsack packing</span>
+          </div>
+          <div class="stat-card">
+            <span class="text-xs text-slate-400">Optimization Solver</span>
+            <div class="text-base font-bold text-purple-400 mt-1">Exact DP (0/1)</div>
+            <span class="text-[10px] text-slate-400">Proven exact against brute force</span>
+          </div>
+        </div>
+
+        <!-- Candidate Triage Queue Table -->
+        <div class="overflow-x-auto rounded-xl border border-slate-800">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950 text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-800">
+              <tr>
+                <th class="p-3">Rank</th>
+                <th class="p-3">Candidate Visit ID</th>
+                <th class="p-3">Screening Diagnosis</th>
+                <th class="p-3">Missing Modalities</th>
+                <th class="p-3">Cost</th>
+                <th class="p-3">Diagnostic Yield</th>
+                <th class="p-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="population-table-body" class="divide-y divide-slate-800/60 bg-slate-900/50">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-900 py-4 text-center text-xs text-slate-400">
+    AI-Driven Prioritization System for Early Alzheimer's Diagnostic Pathways · Research Grounding: MCAD, NeuroNet-AD, TADPOLE, SM-DDPO, Kendall & Gal.
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

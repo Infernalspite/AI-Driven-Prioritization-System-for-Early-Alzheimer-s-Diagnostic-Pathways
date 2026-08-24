@@ -1,0 +1,21 @@
+{
+  "n_subjects": 500,
+  "n_visits": 2107,
+  "mean_visits_per_subject": 4.214,
+  "baseline_diagnosis_class_balance": {
+    "MCI": 218,
+    "CN": 207,
+    "AD": 75
+  },
+  "realized_conversion_rate": 0.174,
+  "target_conversion_band": [
+    0.15,
+    0.22
+  ],
+  "within_target_band": true,
+  "config": {
+    "latent_correlation": 0.25,
+    "transition_scale": 0.3
+  },
+  "reference": "Target band cites the 22% (77/347 subject) 2-year MCI->AD conversion rate from the longitudinal LSTM study in the plan's reference list."
+}

@@ -1,0 +1,69 @@
+{
+  "n_visits_total": 1537,
+  "n_subjects_total": 500,
+  "visits_per_subject": {
+    "mean": 3.074,
+    "distribution": {
+      "1": 87,
+      "2": 95,
+      "3": 109,
+      "4": 112,
+      "5": 97
+    }
+  },
+  "baseline_diagnosis_class_balance": {
+    "MCI": 226,
+    "CN": 192,
+    "AD": 82
+  },
+  "baseline_age": {
+    "mean": 73.23759999999999,
+    "std": 7.463457149689446,
+    "min": 55.0,
+    "max": 93.2
+  },
+  "baseline_sex": {
+    "M": 272,
+    "F": 228
+  },
+  "baseline_education_years": {
+    "mean": 14.386,
+    "std": 2.858907256523514
+  },
+  "by_split": {
+    "train": {
+      "n_subjects": 349,
+      "diagnosis_class_balance": {
+        "MCI": 158,
+        "CN": 134,
+        "AD": 57
+      },
+      "mean_age": 73.29398280802292
+    },
+    "val": {
+      "n_subjects": 75,
+      "diagnosis_class_balance": {
+        "MCI": 34,
+        "CN": 29,
+        "AD": 12
+      },
+      "mean_age": 73.06666666666666
+    },
+    "test": {
+      "n_subjects": 76,
+      "diagnosis_class_balance": {
+        "MCI": 34,
+        "CN": 29,
+        "AD": 13
+      },
+      "mean_age": 73.14736842105263
+    }
+  },
+  "modality_missingness_visit_level": {
+    "abeta42_40_ratio": 0.2498373454782043,
+    "ptau181": 0.2498373454782043,
+    "hippocampal_volume_mm3": 0.1509433962264151,
+    "cortical_thickness_mm": 0.1509433962264151,
+    "pet_amyloid_suvr": 0.6916070266753416
+  }
+}
