@@ -121,7 +121,7 @@ def get_patient_history(subject_id: str):
 @app.post("/api/diagnose")
 def run_diagnosis(req: DiagnoseRequest):
     """Runs Multimodal Cross-Attention Fusion with MC-Dropout uncertainty and token attention."""
-    features = req.dict(exclude={"n_mc_passes"})
+    features = req.model_dump(exclude={"n_mc_passes"})
     return engine.diagnose_multimodal(features, n_mc_passes=req.n_mc_passes)
 
 

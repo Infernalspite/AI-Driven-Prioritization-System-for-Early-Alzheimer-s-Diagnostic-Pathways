@@ -3,7 +3,7 @@
   "n_test_positions": 168,
   "deterministic_pass": {
     "accuracy": 0.9107142857142857,
-    "ece": 0.03542375564575195,
+    "ece": 0.035423756000541505,
     "reliability_bins": [
       {
         "bin_range": [
@@ -56,7 +56,7 @@
           0.6000000000000001
         ],
         "count": 1,
-        "avg_confidence": 0.5413071513175964,
+        "avg_confidence": 0.5413070917129517,
         "accuracy": 1.0
       },
       {
@@ -100,7 +100,7 @@
   "mc_dropout": {
     "n_passes": 30,
     "accuracy": 0.9107142857142857,
-    "ece": 0.05885262876039459,
+    "ece": 0.07320183719552699,
     "reliability_bins": [
       {
         "bin_range": [
@@ -143,9 +143,9 @@
           0.4,
           0.5
         ],
-        "count": 0,
-        "avg_confidence": null,
-        "accuracy": null
+        "count": 1,
+        "avg_confidence": 0.4438992142677307,
+        "accuracy": 1.0
       },
       {
         "bin_range": [
@@ -153,17 +153,17 @@
           0.6000000000000001
         ],
         "count": 5,
-        "avg_confidence": 0.555269718170166,
-        "accuracy": 0.6000000238418579
+        "avg_confidence": 0.5585345029830933,
+        "accuracy": 0.20000000298023224
       },
       {
         "bin_range": [
           0.6000000000000001,
           0.7000000000000001
         ],
-        "count": 3,
-        "avg_confidence": 0.6670845150947571,
-        "accuracy": 0.3333333432674408
+        "count": 4,
+        "avg_confidence": 0.6451459527015686,
+        "accuracy": 1.0
       },
       {
         "bin_range": [
@@ -171,17 +171,17 @@
           0.8
         ],
         "count": 23,
-        "avg_confidence": 0.7641777992248535,
-        "accuracy": 0.8695651888847351
+        "avg_confidence": 0.7693108916282654,
+        "accuracy": 0.9130434989929199
       },
       {
         "bin_range": [
           0.8,
           0.9
         ],
-        "count": 68,
-        "avg_confidence": 0.841768741607666,
-        "accuracy": 0.8970588445663452
+        "count": 66,
+        "avg_confidence": 0.839314877986908,
+        "accuracy": 0.8787878751754761
       },
       {
         "bin_range": [
@@ -189,13 +189,13 @@
           1.0
         ],
         "count": 69,
-        "avg_confidence": 0.9495840668678284,
+        "avg_confidence": 0.9475557804107666,
         "accuracy": 0.9855072498321533
       }
     ],
-    "mean_total_uncertainty": 0.40233179926872253,
-    "mean_aleatoric": 0.3702642023563385,
-    "mean_epistemic": 0.03206757828593254
+    "mean_total_uncertainty": 0.41083604097366333,
+    "mean_aleatoric": 0.3755665421485901,
+    "mean_epistemic": 0.03526942804455757
   },
   "note": "Closes the Phase 4 'Module A/B' gap -- the first Phase 4 pass only covered Module A (evaluate_uncertainty.py). Same MC Dropout / ECE / aleatoric-epistemic machinery, applied here to the longitudinal next-visit head instead of the single-visit classifier."
 }

@@ -89,17 +89,27 @@ class ADClinicalEngine:
 
         if os.path.exists(ckpt_path):
             ckpt = torch.load(ckpt_path, map_location=self.device, weights_only=False)
-            hparams = ckpt.get("hparams", {})
             self.trajectory_model = TrajectoryLSTM(
-                embed_dim=hparams.get("embed_dim", 32),
-                hidden_dim=hparams.get("hidden_dim", 64),
-                n_layers=hparams.get("n_layers", 2),
-                dropout=hparams.get("dropout", 0.3),
+                embed_dim=ckpt.get("embed_dim", 32),
+                hidden_dim=ckpt.get("hidden_dim", 64),
+                n_layers=ckpt.get("n_layers", 2),
+                dropout=ckpt.get("dropout", 0.3),
             ).to(self.device)
             self.trajectory_model.load_state_dict(ckpt["model_state_dict"])
             self.trajectory_model.eval()
+            # Store norm stats from checkpoint for raw-feature normalization at inference
+            self.trajectory_norm_stats = None
+            norm_dict = ckpt.get("norm_stats")
+            if norm_dict:
+                try:
+                    self.trajectory_norm_stats = NormalizationStats.from_dict(norm_dict)
+                except Exception:
+                    self.trajectory_norm_stats = self.norm_stats
+            if self.trajectory_norm_stats is None:
+                self.trajectory_norm_stats = self.norm_stats
         else:
             self.trajectory_model = None
+            self.trajectory_norm_stats = None
 
     def _load_pathway_agent(self):
         """Loads Phase 3 / Phase 4 PPO agent if available."""
@@ -327,8 +337,7 @@ class ADClinicalEngine:
     # -------------------------------------------------------------------------
     def forecast_trajectory(self, subject_id: str, horizon_months: int = 48) -> Dict[str, Any]:
         """Generates continuous 48-month digital twin progression projections with
-
-        decomposed uncertainty bounds.
+        decomposed uncertainty bounds, driven by the TrajectoryLSTM model.
         """
         history = self.get_patient_history(subject_id)
         if not history:
@@ -339,9 +348,80 @@ class ADClinicalEngine:
         baseline_cdrsb = latest_visit["cognitive"]["CDR_SB"] or 1.5
         baseline_mmse = latest_visit["cognitive"]["MMSE"] or 26.0
 
-        slope_per_year = 0.52 if latest_visit["diagnosis"] == "MCI" else (
-            1.10 if latest_visit["diagnosis"] == "AD" else 0.08
-        )
+        # --- Try model-driven prediction first ---
+        slope_per_year = None
+        next_diag_probs = None
+        slope_point = None
+
+        if self.trajectory_model is not None and len(visits) >= 2:
+            try:
+                from dataset import MODALITY_COLUMNS as _MC
+                norm = self.trajectory_norm_stats or self.norm_stats
+                max_visits = 5
+                mf = {m: torch.zeros(1, max_visits, len(cols), device=self.device)
+                       for m, cols in _MC.items()}
+                mm = {m: torch.zeros(1, max_visits, dtype=torch.bool, device=self.device)
+                       for m in _MC.items()}
+                sf = torch.zeros(1, max_visits, len(STATIC_COLUMNS), device=self.device)
+                mask = torch.zeros(1, max_visits, dtype=torch.bool, device=self.device)
+                cdr_raw_t = torch.zeros(1, max_visits, device=self.device)
+
+                t = 0
+                for v in visits:
+                    if t >= max_visits:
+                        break
+                    mask[0, t] = True
+                    raw_row = {"age": v["age"], "education_years": v["education_years"]}
+                    raw_row.update(v["cognitive"])
+                    raw_row.update(v["blood"])
+                    raw_row.update(v["mri"])
+                    raw_row.update(v["pet"])
+                    df_row = pd.DataFrame([{k: np.nan if v2 is None else v2
+                                            for k, v2 in raw_row.items()}])
+                    all_num = [c for cols in _MC.values() for c in cols] + STATIC_COLUMNS
+                    normed = norm.transform(df_row, all_num)
+                    for m, cols in _MC.items():
+                        vals = normed[cols].values.astype(np.float32)
+                        present = not np.isnan(vals).any()
+                        mm[m][0, t] = present
+                        mf[m][0, t] = torch.tensor(np.nan_to_num(vals, nan=0.0))
+                    sf[0, t] = torch.tensor(
+                        normed[STATIC_COLUMNS].values.astype(np.float32)[0]
+                    )
+                    cdr_raw_t[0, t] = baseline_cdrsb if t == len(visits) - 1 else (
+                        v["cognitive"]["CDR_SB"] or baseline_cdrsb
+                    )
+                    t += 1
+
+                traj_batch = {
+                    "modality_features": mf, "modality_mask": mm,
+                    "static_features": sf, "seq_mask": mask,
+                    "length": torch.tensor([t], dtype=torch.long, device=self.device),
+                    "cdr_raw": cdr_raw_t,
+                }
+
+                with torch.no_grad():
+                    self.trajectory_model.eval()
+                    next_logits, slope_pred = self.trajectory_model.project_last_visit(traj_batch)
+                    probs = torch.softmax(next_logits, dim=-1).squeeze(0).cpu().numpy()
+                    slope_point = float(slope_pred.squeeze().cpu().item())
+                    next_diag_probs = {
+                        "CN": round(float(probs[0]), 4),
+                        "MCI": round(float(probs[1]), 4),
+                        "AD": round(float(probs[2]), 4),
+                    }
+                    # slope_pred is CDR-SB points per 6-month interval
+                    slope_per_year = slope_point * 2.0
+            except Exception:
+                slope_per_year = None
+                next_diag_probs = None
+                slope_point = None
+
+        # --- Fallback: heuristic slope if model unavailable ---
+        if slope_per_year is None:
+            slope_per_year = 0.52 if latest_visit["diagnosis"] == "MCI" else (
+                1.10 if latest_visit["diagnosis"] == "AD" else 0.08
+            )
 
         proj_months = list(range(0, horizon_months + 1, 6))
         trajectory_points = []
@@ -376,7 +456,7 @@ class ADClinicalEngine:
                 "epistemic_uncertainty": round(epistemic_std, 3),
             })
 
-        return {
+        result = {
             "subject_id": subject_id,
             "baseline_month": latest_visit["visit_month"],
             "current_diagnosis": latest_visit["diagnosis"],
@@ -384,6 +464,15 @@ class ADClinicalEngine:
             "estimated_time_to_ad_conversion_months": time_to_ad_months,
             "trajectory": trajectory_points,
         }
+        if next_diag_probs is not None:
+            result["model_prediction"] = {
+                "next_visit_probabilities": next_diag_probs,
+                "model_slope_cdrsb_per_6mo": round(slope_point, 4) if slope_point else None,
+                "source": "TrajectoryLSTM",
+            }
+        else:
+            result["model_prediction"] = {"source": "heuristic_fallback"}
+        return result
 
     # -------------------------------------------------------------------------
     # 4. Dynamic Counterfactual Diagnostic & Intervention Simulator (Novelty)
@@ -430,29 +519,74 @@ class ADClinicalEngine:
         epistemic_unc = diag_res["uncertainty"]["epistemic_uncertainty"]
         confidence = diag_res["confidence"]
 
+        # Costs/invasiveness matching pathway_env.py (what the PPO agent was trained on)
         all_tests = [
-            {"name": "blood", "display": "Blood Biomarkers (Aβ42/40, p-tau181)", "cost": 1.0, "invasiveness": 1.0},
-            {"name": "mri", "display": "Structural MRI (Hippocampal Vol, Cortical Thickness)", "cost": 5.0, "invasiveness": 1.5},
-            {"name": "pet", "display": "Amyloid PET Scan (SUVR)", "cost": 15.0, "invasiveness": 4.0},
+            {"name": "blood", "display": "Blood Biomarkers (Aβ42/40, p-tau181)", "cost": 1.0, "invasiveness": 0.5},
+            {"name": "mri", "display": "Structural MRI (Hippocampal Vol, Cortical Thickness)", "cost": 3.0, "invasiveness": 1.0},
+            {"name": "pet", "display": "Amyloid PET Scan (SUVR)", "cost": 8.0, "invasiveness": 3.0},
         ]
 
         remaining_tests = [t for t in all_tests if t["name"] not in ordered_tests]
 
-        recommended_action = "STOP_AND_DIAGNOSE"
-        action_rationale = "Current diagnostic confidence is high; additional testing does not justify cost/invasiveness."
-        expected_info_gain = 0.0
-
-        if remaining_tests:
-            if confidence < 0.85 or epistemic_unc > 0.03:
-                next_test = remaining_tests[0]
-                recommended_action = f"ORDER_{next_test['name'].upper()}"
-                expected_info_gain = round(float(0.12 + epistemic_unc * 2.0 / (next_test['cost'] ** 0.5)), 3)
-                action_rationale = (
-                    f"Epistemic uncertainty ({round(epistemic_unc, 3)}) indicates benefit from escalation to {next_test['display']}."
-                )
-
         cumulative_cost = sum(t["cost"] for t in all_tests if t["name"] in ordered_tests)
         cumulative_invasiveness = sum(t["invasiveness"] for t in all_tests if t["name"] in ordered_tests)
+
+        # --- Use PPO agent when available, otherwise heuristic fallback ---
+        action_probabilities = None
+        recommended_action = None
+        action_rationale = None
+        expected_info_gain = 0.0
+
+        if self.pathway_agent is not None:
+            try:
+                from pathway_env import ESCALATION_MODALITIES as _EMODS
+                # Build obs matching ADPathwayEnvUncertainty._obs():
+                #   [P(CN), P(MCI), P(AD), ordered-flags..., step_frac, epistemic]
+                ordered_flags = [float(m in ordered_tests) for m in _EMODS]
+                obs = np.array(
+                    [diag_res["class_probabilities"]["CN"],
+                     diag_res["class_probabilities"]["MCI"],
+                     diag_res["class_probabilities"]["AD"]]
+                    + ordered_flags
+                    + [0.0, epistemic_unc],
+                    dtype=np.float32,
+                )
+                action_idx, _ = self.pathway_agent.predict(obs, deterministic=True)
+                action_idx = int(action_idx)
+
+                if action_idx < len(_EMODS):
+                    modality = _EMODS[action_idx]
+                    test_info = next((t for t in all_tests if t["name"] == modality), None)
+                    if test_info and modality not in ordered_tests:
+                        recommended_action = f"ORDER_{modality.upper()}"
+                        expected_info_gain = round(float(0.12 + epistemic_unc * 2.0 / (test_info["cost"] ** 0.5)), 3)
+                        action_rationale = (
+                            f"PPO diagnostic pathway agent recommends {test_info['display']} "
+                            f"(epistemic uncertainty: {round(epistemic_unc, 3)})."
+                        )
+                    else:
+                        recommended_action = "STOP_AND_DIAGNOSE"
+                        action_rationale = "PPO agent recommends stopping; sufficient information gathered."
+                else:
+                    recommended_action = "STOP_AND_DIAGNOSE"
+                    action_rationale = "PPO agent recommends stopping and diagnosing with current information."
+            except Exception:
+                self.pathway_agent = None  # disable on error to avoid repeated failures
+
+        # Heuristic fallback when PPO agent is unavailable
+        if recommended_action is None:
+            recommended_action = "STOP_AND_DIAGNOSE"
+            action_rationale = "Current diagnostic confidence is high; additional testing does not justify cost/invasiveness."
+
+            if remaining_tests:
+                if confidence < 0.85 or epistemic_unc > 0.03:
+                    next_test = remaining_tests[0]
+                    recommended_action = f"ORDER_{next_test['name'].upper()}"
+                    expected_info_gain = round(float(0.12 + epistemic_unc * 2.0 / (next_test['cost'] ** 0.5)), 3)
+                    action_rationale = (
+                        f"Epistemic uncertainty ({round(epistemic_unc, 3)}) indicates benefit from "
+                        f"escalation to {next_test['display']}."
+                    )
 
         return {
             "current_ordered_tests": ordered_tests,
@@ -465,12 +599,6 @@ class ADClinicalEngine:
             "recommended_action": recommended_action,
             "action_rationale": action_rationale,
             "expected_value_of_information": expected_info_gain,
-            "action_probabilities": {
-                "ORDER_BLOOD": 0.05 if "blood" in ordered_tests else 0.65,
-                "ORDER_MRI": 0.05 if "mri" in ordered_tests else (0.55 if "blood" in ordered_tests else 0.20),
-                "ORDER_PET": 0.02 if "pet" in ordered_tests else (0.35 if "mri" in ordered_tests else 0.05),
-                "STOP_AND_DIAGNOSE": 0.85 if confidence >= 0.85 else 0.15,
-            }
         }
 
     # -------------------------------------------------------------------------

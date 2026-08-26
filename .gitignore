@@ -1,0 +1,19 @@
+.env
+*.env
+
+__pycache__/
+*.pyc
+
+advenv/
+venv/
+.venv/
+
+# Local datasets
+data/
+
+# Python/Jupyter temporary files
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db

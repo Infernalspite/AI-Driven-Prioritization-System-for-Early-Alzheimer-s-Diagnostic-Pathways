@@ -29,7 +29,7 @@ MODALITY_COLUMNS = {
     "mri": ["hippocampal_volume_mm3", "cortical_thickness_mm"],
     "pet": ["pet_amyloid_suvr"],
 }
-STATIC_COLUMNS = ["age", "sex", "education_years"]  # always present, fed alongside every token
+STATIC_COLUMNS = ["age", "education_years"]  # always present, fed alongside every token
 LABEL_MAP = {"CN": 0, "MCI": 1, "AD": 2}
 LABEL_NAMES = ["CN", "MCI", "AD"]
 
@@ -71,12 +71,8 @@ class ADFusionDataset(Dataset):
         self.df = df.reset_index(drop=True)
         self.norm_stats = norm_stats
 
-        # Encode sex as numeric: M=1, F=0
-        self.df["sex"] = self.df["sex"].map({"M": 1, "F": 0}).astype(float)
-
-        # Sex is binary, so exclude it from normalization
-        cols_to_normalize = [c for cols in MODALITY_COLUMNS.values() for c in cols] + ["age", "education_years"]
-        self.df = self.norm_stats.transform(self.df, cols_to_normalize)
+        all_numeric_cols = [c for cols in MODALITY_COLUMNS.values() for c in cols] + STATIC_COLUMNS
+        self.df = self.norm_stats.transform(self.df, all_numeric_cols)
 
     def __len__(self):
         return len(self.df)
@@ -129,8 +125,7 @@ def load_splits(data_dir: str = "data/raw"):
     val_df = df[df["subject_id"].isin(splits["val_subjects"])].copy()
     test_df = df[df["subject_id"].isin(splits["test_subjects"])].copy()
 
-    # Exclude sex from normalization stats (binary variable)
-    all_numeric_cols = [c for cols in MODALITY_COLUMNS.values() for c in cols] + ["age", "education_years"]
+    all_numeric_cols = [c for cols in MODALITY_COLUMNS.values() for c in cols] + STATIC_COLUMNS
     norm_stats = NormalizationStats().fit(train_df, all_numeric_cols)
 
     return train_df, val_df, test_df, norm_stats
