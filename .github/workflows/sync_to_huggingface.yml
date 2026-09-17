@@ -1,28 +1,27 @@
-name: Sync to Hugging Face Spaces
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-
-jobs:
-  sync-to-hub:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          lfs: true
-
-      - name: Push to Hub
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          git config --global user.email "deploy@github.com"
-          git config --global user.name "GitHub Actions"
-          rm -rf checkpoints/
-          git rm -r --cached checkpoints/ || true
-          git add .gitattributes
-          git commit -m "Strip heavy binaries for hosting" || true
-          git push --force https://Tanyeah:$HF_TOKEN@huggingface.co/spaces/Tanyeah/early-alzheimers-diagnostic-prioritization main
+name: Sync to Hugging Face Spaces 
+ 
+on: 
+  push: 
+    branches: [main] 
+  workflow_dispatch: 
+ 
+jobs: 
+  sync-to-hub: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v4 
+        with: 
+          fetch-depth: 0 
+ 
+      - name: Push to Hub 
+        env: 
+          HF_TOKEN: ${{ secrets.HF_TOKEN }} 
+        run: | 
+          git config --global user.email "deploy@github.com" 
+          git config --global user.name "GitHub Actions" 
+          rm -rf checkpoints/ 
+          git rm -r --cached checkpoints/ || true 
+          git add .gitignore || true 
+          git commit -am "Clean deployment state" || true 
+          git push --force https://Tanyeah:$HF_TOKEN@huggingface.co/spaces/Tanyeah/early-alzheimers-diagnostic-prioritization main 
