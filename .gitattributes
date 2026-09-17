@@ -1,0 +1,3 @@
+checkpoints/*.pt filter=xet diff=xet merge=xet -text
+checkpoints/*.ckpt filter=xet diff=xet merge=xet -text
+checkpoints/*.zip filter=xet diff=xet merge=xet -text

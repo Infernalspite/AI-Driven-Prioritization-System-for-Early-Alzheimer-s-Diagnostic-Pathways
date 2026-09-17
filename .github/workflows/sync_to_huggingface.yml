@@ -19,4 +19,10 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          git config --global user.email "deploy@github.com"
+          git config --global user.name "GitHub Actions"
+          rm -rf checkpoints/
+          git rm -r --cached checkpoints/ || true
+          git add .gitattributes
+          git commit -m "Strip heavy binaries for hosting" || true
           git push --force https://Tanyeah:$HF_TOKEN@huggingface.co/spaces/Tanyeah/early-alzheimers-diagnostic-prioritization main
