@@ -1,3 +1,14 @@
+---
+title: Early Alzheimers Diagnostic Prioritization
+emoji: ??
+colorFrom: purple
+colorTo: indigo
+sdk: gradio
+sdk_version: 5.0.0
+app_file: app.py
+pinned: false
+---
+
 # AI-Driven Prioritization System for Early Alzheimer's Diagnostic Pathways
 
 An implementation of Phases 0–4 of the plan: a pipeline that fuses
