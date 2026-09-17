@@ -17,3 +17,5 @@ data/
 # OS files
 .DS_Store
 Thumbs.dbcheckpoints/ 
+checkpoints/ 
+checkpoints_backup/ 

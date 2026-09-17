@@ -11,17 +11,16 @@ jobs:
     steps: 
       - name: Checkout code 
         uses: actions/checkout@v4 
-        with: 
-          fetch-depth: 0 
  
       - name: Push to Hub 
         env: 
           HF_TOKEN: ${{ secrets.HF_TOKEN }} 
         run: | 
+          rm -rf checkpoints/ checkpoints_backup/ .git/ 
+          git init 
           git config --global user.email "deploy@github.com" 
           git config --global user.name "GitHub Actions" 
-          rm -rf checkpoints/ 
-          git rm -r --cached checkpoints/ || true 
-          git add .gitignore || true 
-          git commit -am "Clean deployment state" || true 
+          git checkout -b main 
+          git add . 
+          git commit -m "Clean serverless code deployment" 
           git push --force https://Tanyeah:$HF_TOKEN@huggingface.co/spaces/Tanyeah/early-alzheimers-diagnostic-prioritization main 
